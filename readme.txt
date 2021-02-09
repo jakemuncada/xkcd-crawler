@@ -37,6 +37,7 @@ to finish their task.)
       at any one time. The number of threads is set at 3 for now.
 
 # FUTURE IMPROVEMENTS:
+    - Also print the logs to a log file.
     - Allow the user to set the number of downloader threads.
     - Allow the user to set the output directory.
     - Allow the user to enable debug-level messages to be displayed on the console.
