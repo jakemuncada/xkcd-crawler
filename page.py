@@ -109,11 +109,12 @@ class Page:
             logger.error('Failed to fetch %s, %s', url, Downloader.getErrorString(err))
             return None
         else:
-            logger.debug(f'Successfully fetched page %s', pageNum)
+            logger.debug('Successfully fetched page %s', pageNum)
             try:
                 soup = BeautifulSoup(response.text, 'html.parser')
-            except Exception as err:
+            except Exception as err:  # pylint: disable=broad-except
                 logger.error('Failed to parse %s to HTML soup, %s', url, err)
+                return None
 
         return Page.fromSoup(pageNum, soup)
 
@@ -138,6 +139,12 @@ class Page:
 
     @classmethod
     def fromJson(cls, jsonData):
+        """
+        Instantiate a Page object from its JSON data.
+
+        Parameters:
+            jsonData (json): The JSON data.
+        """
         pageNum = jsonData['pageNum']
         pageUrl = jsonData['pageUrl']
         imageUrl = jsonData['imageUrl']

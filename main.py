@@ -1,15 +1,24 @@
+"""
+The main script.
+"""
+
 import os
 import sys
 import logging
 from xkcd import XKCDCrawler
 
 
+OUTPUT_DIR = './output'
+JSON_FILEPATH = os.path.join(OUTPUT_DIR, 'xkcd.json')
+
+
 def main():
+    """
+    The main function.
+    """
+
     # Initialize logger
     initLogging()
-
-    OUTPUT_DIR = './output'
-    JSON_FILEPATH = os.path.join(OUTPUT_DIR, 'xkcd.json')
 
     # Get the start and end pages from command line arguments
     start, end = getStartEnd()
@@ -31,21 +40,28 @@ def main():
 
 
 def getStartEnd():
+    """
+    Get the start and end pages from the command line arguments.
+
+    Returns:
+        The start and end pages to be downloaded.
+    """
     start = None
     end = None
-    try:
-        if len(sys.argv) == 3:
-            start = int(sys.argv[1])
-            end = int(sys.argv[2])
-        elif len(sys.argv) == 2:
-            start = 1
-            end = int(sys.argv[1])
-    except:
-        pass
+    if len(sys.argv) == 3:
+        start = int(sys.argv[1])
+        end = int(sys.argv[2])
+    elif len(sys.argv) == 2:
+        start = 1
+        end = int(sys.argv[1])
     return start, end
 
 
 def printUsage():
+    """
+    Print the usage documentation.
+    """
+
     lines = []
     lines.append('')
     lines.append('Provide either both start and end page numbers')
@@ -62,6 +78,10 @@ def printUsage():
 
 
 def initLogging():
+    """
+    Initialize the logger.
+    """
+
     logging.getLogger().setLevel(logging.DEBUG)
     logging.getLogger('urllib3').setLevel(logging.WARNING)
     logging.getLogger('chardet').setLevel(logging.WARNING)
@@ -71,11 +91,6 @@ def initLogging():
     # Set formatter to print only the message in console
     formatter = logging.Formatter('%(message)s')
     handler.setFormatter(formatter)
-
-    # Don't print exception trace in console
-    filter = logging.Filter()
-    filter.filter = lambda record: not record.exc_info
-    handler.addFilter(filter)
 
     # Set level to INFO
     handler.setLevel(logging.INFO)

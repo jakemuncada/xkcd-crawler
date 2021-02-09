@@ -7,7 +7,9 @@ import requests
 
 
 class DownloaderError(Exception):
-    pass
+    """
+    Errors related to the Downloader
+    """
 
 
 class Downloader:
@@ -41,7 +43,7 @@ class Downloader:
             # Raise exception if any.
             response.raise_for_status()
             # If there were no exceptions, the download was successful.
-        except Exception as err:
+        except Exception as err:  # pylint: disable=broad-except
             error = err
 
         return response, error
@@ -67,10 +69,10 @@ class Downloader:
             response = requests.get(url, stream=True)
             if response.status_code != 200:
                 raise DownloaderError(f'Error: Status code {response.status_code}')
-            with open(outputPath, 'wb') as out_file:
-                shutil.copyfileobj(response.raw, out_file)
+            with open(outputPath, 'wb') as outputFile:
+                shutil.copyfileobj(response.raw, outputFile)
             del response
-        except Exception as err:
+        except Exception as err:  # pylint: disable=broad-except
             error = err
         return error
 
