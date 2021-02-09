@@ -82,9 +82,9 @@ class XKCDCrawler:
 
             if pageNum == 404:
                 # Skip the 404 error page, haha
-                logger.info('Skipping the intentional 404 Error page...')
+                logger.debug('Skipping the intentional 404 Error page...')
             elif pageNumStr in self.pages and self.pages[pageNumStr].isDownloaded:
-                logger.info('Skipping page %d...', pageNum)
+                logger.debug('Skipping page %d...', pageNum)
             else:
                 logger.info('Processing page %d...', pageNum)
                 page = Page.fetch(pageNum)
